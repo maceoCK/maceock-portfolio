@@ -59,9 +59,6 @@ function hexToRgb(hex: string): [number, number, number] {
     : [0, 1, 0.25];
 }
 
-// Shared time for all oscilloscopes
-let globalTime = 0;
-let lastFrameTime = 0;
 const TARGET_FPS = 30;
 const FRAME_INTERVAL = 1000 / TARGET_FPS;
 
@@ -83,15 +80,23 @@ export default function Oscilloscope({
   const animationRef = useRef<number>(0);
   const positionLocationRef = useRef<number>(-1);
   const colorLocationRef = useRef<WebGLUniformLocation | null>(null);
-  const positionsRef = useRef<Float32Array>(new Float32Array(128 * 2));
+  // Instance-specific time tracking
+  const timeRef = useRef<number>(0);
+  const lastFrameTimeRef = useRef<number>(0);
 
   // Reduce point count for smaller canvases
   const numPoints = useMemo(() => Math.min(128, Math.max(32, Math.floor(width / 4))), [width]);
 
+  // Allocate positions buffer based on numPoints
+  const positionsRef = useRef<Float32Array | null>(null);
+  if (!positionsRef.current || positionsRef.current.length !== numPoints * 2) {
+    positionsRef.current = new Float32Array(numPoints * 2);
+  }
+
   const colorRgb = useMemo(() => hexToRgb(color), [color]);
 
   const generateWaveform = useCallback((time: number): Float32Array => {
-    const positions = positionsRef.current;
+    const positions = positionsRef.current!;
 
     for (let i = 0; i < numPoints; i++) {
       const x = (i / (numPoints - 1)) * 2 - 1;
@@ -111,14 +116,36 @@ export default function Oscilloscope({
         case 'noise':
           y = (Math.random() * 2 - 1) * amplitude * 0.5 + Math.sin(t * 0.5) * amplitude * 0.5;
           break;
-        case 'heartbeat':
+        case 'heartbeat': {
+          // ECG-style heartbeat waveform
           const phase = (t % (Math.PI * 2)) / (Math.PI * 2);
-          if (phase < 0.1) y = Math.sin(phase * Math.PI * 10) * amplitude * 0.3;
-          else if (phase < 0.2) y = -Math.sin((phase - 0.1) * Math.PI * 10) * amplitude * 0.5;
-          else if (phase < 0.3) y = Math.sin((phase - 0.2) * Math.PI * 10) * amplitude;
-          else if (phase < 0.4) y = -Math.sin((phase - 0.3) * Math.PI * 10) * amplitude * 0.3;
-          else y = 0;
+          if (phase < 0.08) {
+            // P wave (small atrial bump)
+            y = Math.sin(phase / 0.08 * Math.PI) * amplitude * 0.15;
+          } else if (phase < 0.12) {
+            // Flat before QRS
+            y = 0;
+          } else if (phase < 0.16) {
+            // Q dip
+            y = -amplitude * 0.1 * Math.sin((phase - 0.12) / 0.04 * Math.PI);
+          } else if (phase < 0.22) {
+            // R spike (tall peak)
+            y = Math.sin((phase - 0.16) / 0.06 * Math.PI) * amplitude;
+          } else if (phase < 0.28) {
+            // S dip
+            y = -Math.sin((phase - 0.22) / 0.06 * Math.PI) * amplitude * 0.25;
+          } else if (phase < 0.35) {
+            // Flat ST segment
+            y = 0;
+          } else if (phase < 0.50) {
+            // T wave (recovery bump)
+            y = Math.sin((phase - 0.35) / 0.15 * Math.PI) * amplitude * 0.25;
+          } else {
+            // Flat baseline
+            y = 0;
+          }
           break;
+        }
       }
 
       positions[i * 2] = x;
@@ -174,24 +201,27 @@ export default function Oscilloscope({
     // Set color once
     gl.uniform4f(colorLocationRef.current, colorRgb[0], colorRgb[1], colorRgb[2], 1.0);
 
+    // Capture current numPoints for this render cycle
+    const currentNumPoints = numPoints;
+
     const render = (currentTime: number) => {
       // Throttle frame rate
-      if (currentTime - lastFrameTime < FRAME_INTERVAL) {
+      if (currentTime - lastFrameTimeRef.current < FRAME_INTERVAL) {
         animationRef.current = requestAnimationFrame(render);
         return;
       }
-      lastFrameTime = currentTime;
-      globalTime += 0.05;
+      lastFrameTimeRef.current = currentTime;
+      timeRef.current += 0.05;
 
-      if (!gl || !buffer) return;
+      if (!gl || !buffer || !positionsRef.current) return;
 
       gl.clear(gl.COLOR_BUFFER_BIT);
 
-      const positions = generateWaveform(globalTime);
-      gl.bufferData(gl.ARRAY_BUFFER, positions.subarray(0, numPoints * 2), gl.DYNAMIC_DRAW);
+      const positions = generateWaveform(timeRef.current);
+      gl.bufferData(gl.ARRAY_BUFFER, positions.subarray(0, currentNumPoints * 2), gl.DYNAMIC_DRAW);
 
       gl.lineWidth(lineWidth);
-      gl.drawArrays(gl.LINE_STRIP, 0, numPoints);
+      gl.drawArrays(gl.LINE_STRIP, 0, currentNumPoints);
 
       animationRef.current = requestAnimationFrame(render);
     };
@@ -209,9 +239,11 @@ export default function Oscilloscope({
 
   return (
     <div className="oscilloscope-container">
-      <div className="oscilloscope-header">
-        <span className="oscilloscope-label">{label}</span>
-      </div>
+      {label && (
+        <div className="oscilloscope-header">
+          <span className="oscilloscope-label">{label}</span>
+        </div>
+      )}
       <div className="oscilloscope-display" style={{ width, height }}>
         {showGrid && <div className="oscilloscope-grid" />}
         <canvas
@@ -220,10 +252,12 @@ export default function Oscilloscope({
         />
         <div className="oscilloscope-glow" style={{ boxShadow: `inset 0 0 20px ${color}22` }} />
       </div>
-      <div className="oscilloscope-footer">
-        <span>FREQ: {frequency.toFixed(1)}Hz</span>
-        <span>AMP: {(amplitude * 100).toFixed(0)}%</span>
-      </div>
+      {label && (
+        <div className="oscilloscope-footer">
+          <span>FREQ: {frequency.toFixed(1)}Hz</span>
+          <span>AMP: {(amplitude * 100).toFixed(0)}%</span>
+        </div>
+      )}
     </div>
   );
 }
