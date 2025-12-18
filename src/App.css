@@ -1196,6 +1196,69 @@
   border-bottom: 2px solid var(--eva-green-dim);
 }
 
+/* Simple CSS waveform for section headers */
+.header-waveform {
+  width: 300px;
+  height: 40px;
+  background: #000;
+  border: 1px solid var(--eva-green-dim);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-waveform::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 200%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--waveform-color, var(--eva-green)) 2%,
+    var(--waveform-color, var(--eva-green)) 3%,
+    transparent 5%,
+    transparent 10%,
+    var(--waveform-color, var(--eva-green)) 12%,
+    var(--waveform-color, var(--eva-green)) 13%,
+    transparent 15%
+  );
+  animation: waveScroll 2s linear infinite;
+  box-shadow: 0 0 8px var(--waveform-color, var(--eva-green));
+}
+
+.header-waveform::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(90deg, rgba(0,255,65,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(0,255,65,0.03) 1px, transparent 1px);
+  background-size: 20px 10px;
+}
+
+@keyframes waveScroll {
+  0% { transform: translateX(0) translateY(-50%); }
+  100% { transform: translateX(-50%) translateY(-50%); }
+}
+
+.header-waveform svg {
+  width: 200%;
+  height: 100%;
+  animation: waveScroll 3s linear infinite;
+}
+
+.header-waveform svg path {
+  fill: none;
+  stroke: var(--waveform-color, var(--eva-green));
+  stroke-width: 2;
+  filter: drop-shadow(0 0 4px var(--waveform-color, var(--eva-green)));
+}
+
 .section-title {
   font-family: 'Orbitron', sans-serif;
   font-size: 1.1rem;
@@ -2097,6 +2160,26 @@
 @keyframes blinkBracket {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
+}
+
+/* ===== Heartbeat Row ===== */
+.heartbeat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.heartbeat-row .oscilloscope-container {
+  margin: 0;
+}
+
+.heartbeat-row .oscilloscope-footer {
+  padding: 2px 6px;
+  font-size: 0.55rem;
+}
+
+.heartbeat-row .oscilloscope-header {
+  padding: 2px 6px;
 }
 
 /* ===== Stats Carousel ===== */

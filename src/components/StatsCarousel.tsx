@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 // Single long string that loops
-const marqueeText = "2+ YEARS EXPERIENCE  ◆  4.0 GPA  ◆  TOP 0.1% IMC PROSPERITY  ◆  LET'S CONNECT  ◆  I LOVE TO YAP  ◆  REACH OUT ANYTIME  ◆  ";
+const marqueeText = "2+ YEARS EXPERIENCE  ◆  4.0 GPA  ◆  TOP 0.1% IMC PROSPERITY  ◆  LET'S CONNECT  ◆  REACH OUT ANYTIME  ◆  ";
 
 // Simple 5x7 pixel font for LED effect
 const pixelFont: Record<string, number[]> = {
@@ -94,42 +94,45 @@ export default function StatsCarousel() {
     canvas.height = height;
 
     let lastTime = performance.now();
-    let accumulator = 0;
-    const stepSize = 1; // Move 1 column at a time
+    // Horizontal tear effect state
+    const tearRef = { active: false, row: 0, offset: 0, timer: 0 };
 
     function render(currentTime: number) {
       const delta = (currentTime - lastTime) / 1000;
       lastTime = currentTime;
 
-      // Slow scroll - accumulate time, move in discrete steps
-      accumulator += delta * 12; // Slower speed
-
-      // Random glitch/stutter
-      glitchRef.current.timer -= delta;
-      if (glitchRef.current.timer <= 0) {
-        // Randomly trigger glitch
-        if (Math.random() < 0.03) {
-          glitchRef.current.active = true;
-          glitchRef.current.offset = Math.floor(Math.random() * 3) - 1;
-          glitchRef.current.timer = 0.05 + Math.random() * 0.1;
-        } else {
-          glitchRef.current.active = false;
-          glitchRef.current.timer = 0.1 + Math.random() * 0.3;
-        }
-      }
-
-      // Stuttery movement - only move when accumulator exceeds step
-      if (accumulator >= stepSize) {
-        const steps = Math.floor(accumulator / stepSize);
-        // Sometimes skip a beat for stutter effect
-        if (Math.random() > 0.08) {
-          offsetRef.current += steps;
-        }
-        accumulator = accumulator % stepSize;
-      }
+      // Smoother, faster scroll
+      offsetRef.current += delta * 25;
 
       if (offsetRef.current >= totalCols) {
         offsetRef.current -= totalCols;
+      }
+
+      // Random glitch/stutter (less frequent)
+      glitchRef.current.timer -= delta;
+      if (glitchRef.current.timer <= 0) {
+        if (Math.random() < 0.02) {
+          glitchRef.current.active = true;
+          glitchRef.current.offset = Math.floor(Math.random() * 3) - 1;
+          glitchRef.current.timer = 0.03 + Math.random() * 0.06;
+        } else {
+          glitchRef.current.active = false;
+          glitchRef.current.timer = 0.2 + Math.random() * 0.4;
+        }
+      }
+
+      // Horizontal tear effect
+      tearRef.timer -= delta;
+      if (tearRef.timer <= 0) {
+        if (Math.random() < 0.04) {
+          tearRef.active = true;
+          tearRef.row = Math.floor(Math.random() * CHAR_HEIGHT);
+          tearRef.offset = (Math.random() - 0.5) * 8; // Tear offset in pixels
+          tearRef.timer = 0.02 + Math.random() * 0.05;
+        } else {
+          tearRef.active = false;
+          tearRef.timer = 0.1 + Math.random() * 0.3;
+        }
       }
 
       ctx!.fillStyle = '#050505';
@@ -141,7 +144,7 @@ export default function StatsCarousel() {
         let sourceCol = Math.floor(offsetRef.current + displayCol) % totalCols;
 
         // Apply glitch offset to random columns
-        if (glitchRef.current.active && Math.random() < 0.1) {
+        if (glitchRef.current.active && Math.random() < 0.08) {
           sourceCol = (sourceCol + glitchRef.current.offset + totalCols) % totalCols;
         }
 
@@ -151,12 +154,17 @@ export default function StatsCarousel() {
           let isLit = columnData[row];
 
           // Random pixel flicker glitch
-          if (glitchRef.current.active && Math.random() < 0.02) {
+          if (glitchRef.current.active && Math.random() < 0.015) {
             isLit = !isLit;
           }
 
-          const x = displayCol * PIXEL_SIZE;
+          let x = displayCol * PIXEL_SIZE;
           const y = row * PIXEL_SIZE;
+
+          // Apply horizontal tear to specific row
+          if (tearRef.active && row === tearRef.row) {
+            x += tearRef.offset;
+          }
 
           if (isLit) {
             // Lit pixel - bright green
