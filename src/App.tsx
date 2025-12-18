@@ -6,7 +6,7 @@ import DataStream from './components/DataStream';
 import RadarDisplay from './components/RadarDisplay';
 import TechGraph3D from './components/TechGraph3D';
 import ConnectHub3D from './components/ConnectHub3D';
-import StatsCarousel from './components/StatsCarousel';
+import HeartbeatMonitor from './components/HeartbeatMonitor';
 
 function App() {
   return (
@@ -43,7 +43,6 @@ function App() {
           <div className="sidebar-visuals">
             <Oscilloscope width={200} height={80} color="#00ff41" frequency={1.5} amplitude={0.6} waveType="sine" label="NEURAL ACTIVITY" />
             <BarGraph width={200} height={60} barCount={8} color="#00ff41" label="SYSTEM LOAD" />
-            <DataStream width={200} height={120} color="#00ff41" label="DATA STREAM" />
           </div>
 
           <div className="contact-panel">
@@ -58,6 +57,8 @@ function App() {
               <span className="contact-indicator" /> EMAIL
             </a>
           </div>
+
+          <DataStream width={200} height={120} color="#00ff41" label="DATA STREAM" />
         </aside>
 
         {/* Main Content Area */}
@@ -91,7 +92,10 @@ function App() {
             <StatusItem label="HONORS" value="Summa Cum Laude" />
           </div>
 
-          <Oscilloscope width={180} height={60} color="#ff6600" frequency={0.8} amplitude={0.5} waveType="heartbeat" label="SYNC PULSE" />
+          <div className="heartbeat-row">
+            <HeartbeatMonitor width={180} height={50} color="#00ff41" label="ECG-I" />
+            <HeartbeatMonitor width={180} height={50} color="#ff6600" label="ECG-II" />
+          </div>
         </aside>
       </main>
 
@@ -164,8 +168,6 @@ function AboutSection() {
             Software engineer with a passion for building fast, scalable tools—from AI-embedded
             search systems handling millions of records to cross-platform applications used by thousands.
           </p>
-
-          <StatsCarousel />
 
           <p className="about-body">
             Currently building AI-powered systems at <span className="highlight-text">Traba</span>—a
@@ -452,40 +454,6 @@ function ProficiencyBar({ name, level, color }: { name: string; level: number; c
             boxShadow: `0 0 8px ${color}`,
           }}
         />
-      </div>
-    </div>
-  );
-}
-
-function SkillCategory({ title, color, skills }: {
-  title: string;
-  color: string;
-  skills: { name: string; level: number }[];
-}) {
-  return (
-    <div className="skill-category">
-      <div className="skill-category-header" style={{ borderColor: color }}>
-        <span style={{ color }}>{title}</span>
-      </div>
-      <div className="skill-list">
-        {skills.map((skill, i) => (
-          <div key={i} className="skill-item">
-            <div className="skill-info">
-              <span className="skill-name">{skill.name}</span>
-              <span className="skill-level" style={{ color }}>{skill.level}%</span>
-            </div>
-            <div className="skill-bar">
-              <div
-                className="skill-fill"
-                style={{
-                  width: `${skill.level}%`,
-                  backgroundColor: color,
-                  boxShadow: `0 0 10px ${color}`
-                }}
-              />
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );

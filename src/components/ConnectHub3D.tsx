@@ -379,6 +379,8 @@ export default function ConnectHub3D({ width = 400, height = 300 }: ConnectHub3D
     let frameCount = 0;
 
     function render() {
+      if (!gl || !canvas) return;
+
       const time = (performance.now() - startTime) / 1000;
       frameCount++;
 
@@ -386,7 +388,7 @@ export default function ConnectHub3D({ width = 400, height = 300 }: ConnectHub3D
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-      rotationRef.current += 0.008;
+      rotationRef.current += 0.003;
       const rotation = rotationRef.current;
 
       const aspect = width / height;
@@ -498,32 +500,31 @@ export default function ConnectHub3D({ width = 400, height = 300 }: ConnectHub3D
       </div>
 
       <div className="connect-hub-display" ref={containerRef}>
-        <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />
+        <canvas ref={canvasRef} style={{ width: '100%', height: '100%', pointerEvents: 'none' }} />
 
-        <div className="connect-hub-labels">
-          {labels.map(label => (
-            <a
-              key={label.id}
-              href={label.url}
-              target={label.id !== 'email' ? '_blank' : undefined}
-              rel="noopener noreferrer"
-              className={`connect-label ${hoveredNode === label.id ? 'hovered' : ''}`}
-              style={{
-                left: `${label.x}px`,
-                top: `${label.y}px`,
-                transform: `translate(-50%, -50%) scale(${label.scale})`,
-                opacity: Math.max(0.6, 1 - label.z * 0.3),
-                zIndex: Math.floor((1 - label.z) * 100),
-                '--label-color': label.color,
-              } as React.CSSProperties}
-              onMouseEnter={() => handleMouseEnter(label.id)}
-              onMouseLeave={handleMouseLeave}
-            >
-              <span className="connect-icon">{label.icon}</span>
-              <span className="connect-text">{label.label}</span>
-            </a>
-          ))}
-        </div>
+        {labels.map(label => (
+          <a
+            key={label.id}
+            href={label.url}
+            target={label.id !== 'email' ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            className={`connect-label ${hoveredNode === label.id ? 'hovered' : ''}`}
+            style={{
+              position: 'absolute',
+              left: `${label.x}px`,
+              top: `${label.y}px`,
+              transform: `translate(-50%, -50%) scale(${label.scale})`,
+              opacity: Math.max(0.6, 1 - label.z * 0.3),
+              zIndex: Math.round(100 - label.z * 40),
+              '--label-color': label.color,
+            } as React.CSSProperties}
+            onMouseEnter={() => handleMouseEnter(label.id)}
+            onMouseLeave={handleMouseLeave}
+          >
+            <span className="connect-icon">{label.icon}</span>
+            <span className="connect-text">{label.label}</span>
+          </a>
+        ))}
 
         <div className="connect-hub-overlay">
           <div className="scanlines" />

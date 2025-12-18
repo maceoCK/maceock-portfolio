@@ -309,7 +309,7 @@ export default function TechGraph3D({ width = 800, height = 500 }: TechGraph3DPr
   const animationRef = useRef<number>(0);
   const rotationRef = useRef(0);
   const [labels, setLabels] = useState<Label2D[]>([]);
-  const [displaySize, setDisplaySize] = useState({ width, height });
+  const [_displaySize, setDisplaySize] = useState({ width, height });
 
   // Track actual displayed size
   useEffect(() => {
@@ -487,6 +487,8 @@ export default function TechGraph3D({ width = 800, height = 500 }: TechGraph3DPr
     let frameCount = 0;
 
     function render() {
+      if (!gl || !canvas) return;
+
       const time = (performance.now() - startTime) / 1000;
       frameCount++;
 
