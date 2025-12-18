@@ -26,6 +26,15 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* Mobile override - allow scrolling */
+@media (max-width: 768px) {
+  html, body, #root {
+    overflow: auto;
+    height: auto;
+    min-height: 100%;
+  }
+}
+
 /* GPU Acceleration */
 canvas {
   will-change: contents;

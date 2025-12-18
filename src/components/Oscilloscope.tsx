@@ -244,7 +244,7 @@ export default function Oscilloscope({
           <span className="oscilloscope-label">{label}</span>
         </div>
       )}
-      <div className="oscilloscope-display" style={{ width, height }}>
+      <div className="oscilloscope-display" style={{ width: '100%', maxWidth: width, height }}>
         {showGrid && <div className="oscilloscope-grid" />}
         <canvas
           ref={canvasRef}
