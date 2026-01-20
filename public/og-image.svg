@@ -1,0 +1,15 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+
+  <!-- Large background letters -->
+  <text x="600" y="400" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="500" fill="#ffffff" opacity="0.03">MCK</text>
+
+  <!-- Main name -->
+  <text x="600" y="260" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="90" fill="#fafafa">MACEO</text>
+  <text x="600" y="360" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="90" fill="#e63329">CARDINALE</text>
+  <text x="600" y="460" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="90" fill="#fafafa">KWIK</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="540" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="24" letter-spacing="0.3em" fill="#fafafa" opacity="0.6">SOFTWARE ENGINEER</text>
+</svg>
