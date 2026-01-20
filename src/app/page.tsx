@@ -417,9 +417,9 @@ export default function Home() {
         <div className="mt-10 md:mt-16 space-y-4">
           <a
             href="mailto:Maceo.ck@gmail.com"
-            className="block text-lg sm:text-2xl md:text-3xl font-bold hover:text-black transition-colors break-all"
+            className="block text-lg sm:text-2xl md:text-3xl font-bold hover:text-black transition-colors"
           >
-            Maceo.ck@gmail.com
+            Maceo dot CK → gmail dot com
           </a>
           <div className="flex gap-6 sm:gap-8 justify-center text-sm sm:text-lg font-bold tracking-widest pt-6 md:pt-8 flex-wrap">
             <a
