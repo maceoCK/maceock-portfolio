@@ -228,11 +228,11 @@ export default function Home() {
   );
 
   return (
-    <main className="bg-white">
+    <main className="bg-white w-full overflow-x-hidden">
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="section flex flex-col justify-center items-center px-8 relative overflow-hidden"
+        className="section flex flex-col justify-center items-center px-8 relative overflow-hidden w-full"
         style={{ minHeight: "100vh" }}
       >
         {/* Large background letters */}
@@ -276,8 +276,8 @@ export default function Home() {
       </section>
 
       {/* About Section - Red Block */}
-      <section className="section red-block flex flex-col justify-center px-6 sm:px-8 md:px-16 lg:px-24 py-16 md:py-0">
-        <div className="max-w-6xl mx-auto">
+      <section className="section red-block flex flex-col justify-center items-center px-6 sm:px-8 md:px-16 lg:px-24 py-16 md:py-0 w-full">
+        <div className="max-w-6xl mx-auto w-full">
           <ScrollText
             text="ABOUT"
             className="text-[12vw] sm:text-[8vw] md:text-[6vw] font-bold leading-none mb-6 md:mb-8 text-white/30"
@@ -305,7 +305,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section className="flex flex-col justify-center px-6 sm:px-8 md:px-16 lg:px-24 bg-white py-16 md:py-24">
+      <section className="flex flex-col justify-center items-center px-6 sm:px-8 md:px-16 lg:px-24 bg-white py-16 md:py-24 w-full">
         <div className="max-w-6xl mx-auto w-full">
           <ScrollText
             text="PROJECTS"
@@ -374,7 +374,7 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section className="bg-black text-white flex flex-col justify-center px-6 sm:px-8 md:px-16 lg:px-24 py-16 md:py-24">
+      <section className="bg-black text-white flex flex-col justify-center items-center px-6 sm:px-8 md:px-16 lg:px-24 py-16 md:py-24 w-full">
         <div className="max-w-6xl mx-auto w-full">
           <ScrollText
             text="STACK"
@@ -404,7 +404,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className="red-block flex flex-col justify-center items-center px-6 sm:px-8 text-center py-16 md:py-24 min-h-[80vh] md:min-h-screen">
+      <section className="red-block flex flex-col justify-center items-center px-6 sm:px-8 text-center py-16 md:py-24 min-h-[80vh] md:min-h-screen w-full">
         <ScrollText
           text="LET'S BUILD"
           className="text-[12vw] sm:text-[10vw] md:text-[8vw] font-bold leading-[0.9] mb-2 md:mb-4"
@@ -443,8 +443,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-6 md:py-8 px-6 sm:px-8">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <footer className="bg-black text-white py-6 md:py-8 px-6 sm:px-8 w-full">
+        <div className="max-w-6xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs sm:text-sm tracking-widest opacity-50 text-center md:text-left">
             MACEO CARDINALE KWIK — BROOKLYN, NY
           </p>
