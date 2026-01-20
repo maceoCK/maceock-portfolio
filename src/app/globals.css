@@ -172,3 +172,30 @@ a:hover {
     transform: translateY(-10px);
   }
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .section {
+    min-height: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .letter {
+    transition: none;
+  }
+
+  .letter-falling {
+    animation-duration: 0.4s;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  .overlap-letters {
+    letter-spacing: -0.08em;
+  }
+}

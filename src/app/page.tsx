@@ -251,8 +251,8 @@ export default function Home() {
         </div>
 
         {/* Main title */}
-        <div className="relative z-10 text-center">
-          <h1 className="text-[12vw] md:text-[10vw] font-bold leading-[0.85] tracking-tight uppercase">
+        <div className="relative z-10 text-center px-4">
+          <h1 className="text-[14vw] sm:text-[12vw] md:text-[10vw] font-bold leading-[0.85] tracking-tight uppercase">
             <ScrollText text="MACEO" className="block" />
             <span className="block text-red">
               <ScrollText text="CARDINALE" />
@@ -260,7 +260,7 @@ export default function Home() {
             <ScrollText text="KWIK" className="block" />
           </h1>
 
-          <div className="mt-12 text-xl md:text-2xl font-bold uppercase tracking-widest">
+          <div className="mt-8 md:mt-12 text-base sm:text-xl md:text-2xl font-bold uppercase tracking-widest">
             <WordTransition
               fromWord={wordTransitions[currentTransition].from}
               toWord={wordTransitions[currentTransition].to}
@@ -276,20 +276,20 @@ export default function Home() {
       </section>
 
       {/* About Section - Red Block */}
-      <section className="section red-block flex flex-col justify-center px-8 md:px-16 lg:px-24">
+      <section className="section red-block flex flex-col justify-center px-6 sm:px-8 md:px-16 lg:px-24 py-16 md:py-0">
         <div className="max-w-6xl mx-auto">
           <ScrollText
             text="ABOUT"
-            className="text-[8vw] md:text-[6vw] font-bold leading-none mb-8 text-white/30"
+            className="text-[12vw] sm:text-[8vw] md:text-[6vw] font-bold leading-none mb-6 md:mb-8 text-white/30"
           />
-          <div className="grid md:grid-cols-2 gap-12 md:gap-24">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-24">
             <div>
-              <p className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
+              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
                 Full Stack Software Engineer building at the intersection of
                 performance and user experience.
               </p>
             </div>
-            <div className="text-lg md:text-xl opacity-80 space-y-6">
+            <div className="text-base sm:text-lg md:text-xl opacity-80 space-y-4 md:space-y-6">
               <p>
                 Based in Brooklyn, NY. Currently engineering at Traba. I build
                 systems that scale—from WebGL visualizations to distributed
@@ -305,37 +305,37 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section className="flex flex-col justify-center px-8 md:px-16 lg:px-24 bg-white py-24">
+      <section className="flex flex-col justify-center px-6 sm:px-8 md:px-16 lg:px-24 bg-white py-16 md:py-24">
         <div className="max-w-6xl mx-auto w-full">
           <ScrollText
             text="PROJECTS"
-            className="text-[8vw] md:text-[6vw] font-bold leading-none mb-16 text-black/10"
+            className="text-[12vw] sm:text-[8vw] md:text-[6vw] font-bold leading-none mb-10 md:mb-16 text-black/10"
           />
 
           {/* Project Grid */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid sm:grid-cols-2 gap-10 md:gap-12">
             {projects.map((project, i) => (
               <div
                 key={i}
-                className="group border-b-4 border-black pb-8 hover:border-red transition-colors"
+                className="group border-b-4 border-black pb-6 md:pb-8 hover:border-red transition-colors"
               >
                 {/* Icon Container */}
-                <div className="aspect-[4/3] bg-black/5 mb-6 overflow-hidden relative flex items-center justify-center group-hover:bg-red/5 transition-colors">
-                  <project.Icon className="w-32 h-32 md:w-40 md:h-40 text-black/20 group-hover:text-red/40 transition-colors" />
+                <div className="aspect-[4/3] bg-black/5 mb-4 md:mb-6 overflow-hidden relative flex items-center justify-center group-hover:bg-red/5 transition-colors">
+                  <project.Icon className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 text-black/20 group-hover:text-red/40 transition-colors" />
                 </div>
 
-                <p className="text-xs tracking-widest text-black/50 mb-2">
+                <p className="text-[10px] sm:text-xs tracking-widest text-black/50 mb-1 md:mb-2">
                   {project.category}
                 </p>
-                <h3 className="text-2xl md:text-3xl font-bold group-hover:text-red transition-colors mb-2">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold group-hover:text-red transition-colors mb-2">
                   {project.title}
                 </h3>
-                <p className="text-base text-black/60 mb-4">
+                <p className="text-sm sm:text-base text-black/60 mb-3 md:mb-4">
                   {project.description}
                 </p>
 
                 {/* Links */}
-                <div className="flex gap-4 text-sm font-bold tracking-widest">
+                <div className="flex gap-4 text-xs sm:text-sm font-bold tracking-widest">
                   <a
                     href={project.link}
                     target="_blank"
@@ -360,12 +360,12 @@ export default function Home() {
           </div>
 
           {/* View All Link */}
-          <div className="mt-16 text-center">
+          <div className="mt-10 md:mt-16 text-center">
             <a
               href="https://github.com/maceoCK"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-xl font-bold tracking-widest border-b-4 border-black hover:border-red hover:text-red transition-colors pb-2"
+              className="inline-block text-base sm:text-xl font-bold tracking-widest border-b-4 border-black hover:border-red hover:text-red transition-colors pb-2"
             >
               VIEW ALL ON GITHUB →
             </a>
@@ -374,24 +374,24 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section className="bg-black text-white flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24">
+      <section className="bg-black text-white flex flex-col justify-center px-6 sm:px-8 md:px-16 lg:px-24 py-16 md:py-24">
         <div className="max-w-6xl mx-auto w-full">
           <ScrollText
             text="STACK"
-            className="text-[8vw] md:text-[6vw] font-bold leading-none mb-16 text-white/20"
+            className="text-[12vw] sm:text-[8vw] md:text-[6vw] font-bold leading-none mb-10 md:mb-16 text-white/20"
           />
 
-          <div className="grid md:grid-cols-4 gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {skills.map((skill, i) => (
               <div key={i}>
-                <h3 className="text-red text-lg font-bold mb-6 tracking-widest">
+                <h3 className="text-red text-sm sm:text-lg font-bold mb-4 md:mb-6 tracking-widest">
                   {skill.title}
                 </h3>
-                <ul className="space-y-3">
+                <ul className="space-y-2 md:space-y-3">
                   {skill.items.map((item, j) => (
                     <li
                       key={j}
-                      className="text-lg opacity-70 hover:opacity-100 transition-opacity cursor-default"
+                      className="text-sm sm:text-lg opacity-70 hover:opacity-100 transition-opacity cursor-default"
                     >
                       {item}
                     </li>
@@ -404,24 +404,24 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className="red-block flex flex-col justify-center items-center px-8 text-center py-24 min-h-screen">
+      <section className="red-block flex flex-col justify-center items-center px-6 sm:px-8 text-center py-16 md:py-24 min-h-[80vh] md:min-h-screen">
         <ScrollText
           text="LET'S BUILD"
-          className="text-[10vw] md:text-[8vw] font-bold leading-[0.9] mb-4"
+          className="text-[12vw] sm:text-[10vw] md:text-[8vw] font-bold leading-[0.9] mb-2 md:mb-4"
         />
         <ScrollText
           text="TOGETHER"
-          className="text-[10vw] md:text-[8vw] font-bold leading-[0.9] text-black"
+          className="text-[12vw] sm:text-[10vw] md:text-[8vw] font-bold leading-[0.9] text-black"
         />
 
-        <div className="mt-16 space-y-4">
+        <div className="mt-10 md:mt-16 space-y-4">
           <a
             href="mailto:Maceo.ck@gmail.com"
-            className="block text-2xl md:text-3xl font-bold hover:text-black transition-colors"
+            className="block text-lg sm:text-2xl md:text-3xl font-bold hover:text-black transition-colors break-all"
           >
             Maceo.ck@gmail.com
           </a>
-          <div className="flex gap-8 justify-center text-lg font-bold tracking-widest pt-8 flex-wrap">
+          <div className="flex gap-6 sm:gap-8 justify-center text-sm sm:text-lg font-bold tracking-widest pt-6 md:pt-8 flex-wrap">
             <a
               href="https://github.com/maceoCK"
               target="_blank"
@@ -443,12 +443,12 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-8 px-8">
+      <footer className="bg-black text-white py-6 md:py-8 px-6 sm:px-8">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm tracking-widest opacity-50">
+          <p className="text-xs sm:text-sm tracking-widest opacity-50 text-center md:text-left">
             MACEO CARDINALE KWIK — BROOKLYN, NY
           </p>
-          <div className="flex gap-6 text-sm tracking-widest opacity-50">
+          <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm tracking-widest opacity-50">
             <a
               href="https://github.com/maceoCK"
               target="_blank"
